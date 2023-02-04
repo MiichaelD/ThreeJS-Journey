@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { CustomizeRule } from 'webpack-merge'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 /** 
  * Cursor
@@ -50,6 +51,11 @@ camera.position.z = 2
 camera.lookAt(mesh.position)
 scene.add(camera)
 
+// Controlls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -63,16 +69,22 @@ const amplitud = 3
 const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
+    // React to mouse
     // camera.position.x = cursor.x * amplitud;
     // camera.position.y = cursor.y * amplitud;
-    camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 2;
-    camera.position.y = cursor.y * amplitud;
-    camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 2;
-    camera.lookAt(mesh.position)
+
+    // Full revolution
+    // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 2;
+    // camera.position.y = cursor.y * amplitud;
+    // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 2;
+    // camera.lookAt(mesh.position)
 
     // Update objects
     // mesh.rotation.y = elapsedTime;
     // console.log(elapsedTime)
+
+    // Needed for damping
+    controls.update()
 
     // Render
     renderer.render(scene, camera)
